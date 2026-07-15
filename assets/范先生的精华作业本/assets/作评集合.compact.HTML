@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>作品集合</title>
+<style>
+:root{
+  --bg:#070b11;
+  --panel:rgba(12,20,31,.88);
+  --panel2:rgba(5,10,16,.94);
+  --line:rgba(116,240,255,.22);
+  --cyan:#74f0ff;
+  --blue:#5ab4ff;
+  --amber:#ffb45c;
+  --text:#edf6ff;
+  --soft:#a8bdcf;
+  --muted:#71879b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif;
+  background:
+    radial-gradient(circle at top right,rgba(90,180,255,.18),transparent 24%),
+    radial-gradient(circle at 10% 18%,rgba(116,240,255,.1),transparent 28%),
+    linear-gradient(180deg,#04070b 0%,#08111b 46%,#05080d 100%);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(116,240,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(116,240,255,.05) 1px,transparent 1px);
+  background-size:36px 36px;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.34),rgba(0,0,0,.06));
+}
+img{display:block;width:100%;height:100%;object-fit:cover}
+.page{
+  width:min(1320px,calc(100vw - 40px));
+  margin:20px auto;
+  padding:22px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(8,13,20,.96),rgba(5,9,14,.98));
+  box-shadow:0 24px 60px rgba(0,0,0,.38);
+}
+.cover{
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(300px,.55fr);
+  gap:12px;
+  min-height:0;
+  margin-bottom:12px;
+}
+.hero,.toc,.case,.card{
+  border:1px solid var(--line);
+  background:var(--panel);
+  backdrop-filter:blur(10px);
+}
+.hero{
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr);
+  gap:18px;
+  position:relative;
+  overflow:hidden;
+  padding:24px;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  right:18px;
+  bottom:18px;
+  width:92px;
+  height:92px;
+  border:1px solid rgba(116,240,255,.18);
+  background:linear-gradient(135deg,rgba(116,240,255,.14),transparent);
+}
+.kicker,.label{
+  color:var(--muted);
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+h1{
+  margin:10px 0 12px;
+  font-size:clamp(28px,3.2vw,46px);
+  line-height:.95;
+  letter-spacing:-.05em;
+}
+.hero-title{
+  position:relative;
+  z-index:1;
+  display:grid;
+  align-content:space-between;
+  min-height:218px;
+  padding-right:18px;
+  border-right:1px solid rgba(116,240,255,.22);
+}
+.hero-title .seal{
+  align-self:end;
+  width:92px;
+  height:92px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(116,240,255,.28);
+  color:var(--cyan);
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  background:rgba(5,10,16,.45);
+}
+.ability-grid{
+  position:relative;
+  z-index:1;
+  display:grid;
+  gap:10px;
+  margin:0;
+}
+.ability-card{
+  display:grid;
+  grid-template-columns:44px minmax(0,1fr) minmax(160px,.42fr);
+  gap:14px;
+  align-items:start;
+  min-height:0;
+  padding:12px 14px;
+  border:1px solid rgba(116,240,255,.18);
+  background:
+    linear-gradient(90deg,rgba(116,240,255,.1),transparent 38%),
+    rgba(5,10,16,.52);
+}
+.ability-num{
+  color:var(--cyan);
+  font-size:26px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-.08em;
+}
+.ability-card h3{
+  margin:0 0 5px;
+  color:var(--cyan);
+  font-size:14px;
+  line-height:1.3;
+}
+.ability-card p{
+  margin:0;
+  color:var(--soft);
+  font-size:12px;
+  line-height:1.55;
+}
+.ability-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  justify-content:flex-end;
+}
+.ability-tags span{
+  padding:5px 7px;
+  border:1px solid rgba(116,240,255,.18);
+  color:var(--soft);
+  font-size:11px;
+  line-height:1;
+  background:rgba(3,7,12,.5);
+}
+.toc{
+  display:grid;
+  align-content:stretch;
+  gap:8px;
+  padding:12px;
+}
+.toc a{
+  display:grid;
+  grid-template-columns:54px 1fr;
+  gap:16px;
+  align-items:center;
+  min-height:56px;
+  padding:10px 12px;
+  color:var(--text);
+  text-decoration:none;
+  border:1px solid rgba(116,240,255,.16);
+  background:rgba(5,10,16,.58);
+}
+.toc b{color:var(--cyan);font-size:18px}
+.toc span{display:block;color:var(--soft);font-size:13px;line-height:1.45}
+.case{
+  display:grid;
+  grid-template-columns:330px minmax(0,1fr);
+  gap:14px;
+  padding:14px;
+  margin-top:12px;
+}
+.case.alt{--cyan:var(--amber);--line:rgba(255,180,92,.24)}
+.side{
+  display:grid;
+  align-content:start;
+  gap:16px;
+  padding:22px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(135deg,rgba(116,240,255,.12),transparent 34%),
+    var(--panel2);
+}
+.case.alt .side{
+  background:
+    linear-gradient(135deg,rgba(255,180,92,.14),transparent 34%),
+    var(--panel2);
+}
+h2{
+  margin:0;
+  font-size:34px;
+  line-height:1.08;
+  letter-spacing:-.04em;
+}
+.calligraphy-title{
+  font-family:"STXinwei","华文新魏","FZYaoTi","方正姚体","KaiTi","FangSong",serif;
+  font-size:46px;
+  font-weight:500;
+  letter-spacing:.02em;
+  color:#b8842f;
+  background:linear-gradient(180deg,#d8bd74 0%,#a87425 48%,#5f3a12 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 18px rgba(166,112,36,.18);
+}
+.title-extra{
+  display:block;
+  margin-top:10px;
+  color:var(--cyan);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif;
+  font-size:17px;
+  font-weight:800;
+  letter-spacing:.04em;
+  -webkit-text-fill-color:initial;
+  text-shadow:none;
+}
+.sub{
+  margin:0;
+  color:var(--cyan);
+  font-weight:800;
+  line-height:1.6;
+}
+.meta{display:grid;gap:12px}
+.meta p{margin:4px 0 0;color:var(--soft);font-size:14px;line-height:1.7}
+.visual{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(240px,.65fr);
+  gap:12px;
+}
+.main-img,.statement{
+  min-height:260px;
+  border:1px solid var(--line);
+  overflow:hidden;
+  background:var(--panel2);
+}
+.main-img{position:relative}
+.main-img::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,transparent 52%,rgba(3,7,12,.72));
+}
+.statement{
+  display:grid;
+  align-content:end;
+  padding:24px;
+  background:
+    linear-gradient(135deg,rgba(116,240,255,.14),transparent 38%),
+    linear-gradient(180deg,rgba(255,180,92,.06),rgba(5,10,16,.94));
+}
+.statement strong{
+  font-size:34px;
+  line-height:1.18;
+  letter-spacing:-.04em;
+}
+.statement-impact strong{
+  position:relative;
+  z-index:2;
+  display:block;
+  font-size:clamp(46px,5.4vw,74px);
+  line-height:.98;
+  letter-spacing:-.08em;
+}
+.statement-impact{
+  position:relative;
+}
+.statement-impact::after{
+  content:attr(data-reflection);
+  position:absolute;
+  left:24px;
+  right:20px;
+  bottom:46px;
+  z-index:1;
+  color:var(--text);
+  font-size:clamp(46px,5.4vw,74px);
+  font-weight:900;
+  line-height:.98;
+  letter-spacing:-.08em;
+  opacity:.1;
+  transform:scaleY(-1);
+  transform-origin:bottom;
+  filter:blur(1.2px);
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.35),transparent 72%);
+  pointer-events:none;
+}
+.statement p{
+  position:relative;
+  z-index:2;
+  margin:16px 0 0;
+  color:var(--soft);
+  line-height:1.75;
+}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.card{
+  min-height:0;
+  overflow:hidden;
+}
+.thumb{height:128px;border-bottom:1px solid var(--line);background:#02060a}
+.thumb img{object-fit:contain;padding:4px}
+.card-copy{padding:13px 14px 15px}
+.card h3{margin:6px 0 7px;font-size:16px;line-height:1.25}
+.card p{margin:0;color:var(--soft);font-size:13px;line-height:1.65}
+.two .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+.qr{
+  width:112px;
+  height:112px;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.qr-note{
+  margin:-6px 0 0;
+  color:var(--soft);
+  font-size:13px;
+  line-height:1.6;
+}
+@media print{
+  @page{size:A4 landscape;margin:8mm}
+  body{background:#fff}
+  body::before{display:none}
+  .page{width:auto;margin:0;padding:0;border:0;box-shadow:none}
+  .cover,.case{break-inside:avoid;page-break-inside:avoid}
+  .case{margin-top:10mm}
+}
+@media (max-width:980px){
+  .page{width:calc(100vw - 24px);padding:14px}
+  .cover,.case,.visual,.hero{grid-template-columns:1fr}
+  .hero-title{min-height:0;padding-right:0;padding-bottom:14px;border-right:0;border-bottom:1px solid rgba(116,240,255,.22)}
+  .hero-title .seal{display:none}
+  .cards,.two .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ability-card{grid-template-columns:38px minmax(0,1fr)}
+  .ability-tags{grid-column:2;justify-content:flex-start}
+  .main-img,.statement{min-height:240px}
+}
+@media (max-width:620px){
+  .cards,.two .cards{grid-template-columns:1fr}
+  .hero{padding:26px 22px}
+  h1{font-size:44px}
+  h2{font-size:30px}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="cover" aria-label="作品集合封面">
+    <div class="hero">
+      <div class="hero-title">
+        <div>
+          <div class="kicker">Portfolio Collection</div>
+          <h1>作品集合</h1>
+        </div>
+        <div class="seal">Selected<br>Works</div>
+      </div>
+      <div class="ability-grid" aria-label="能力摘要">
+        <section class="ability-card">
+          <div class="ability-num">01</div>
+          <div>
+            <h3>跨领域思维</h3>
+            <p>结合文学理论、传播学模型与心理学方法，并熟悉 LLM、Prompt Engineering 等 NLP 基础概念，优化 AI 生成内容。</p>
+          </div>
+          <div class="ability-tags"><span>Literature</span><span>Comms</span><span>LLM</span></div>
+        </section>
+        <section class="ability-card">
+          <div class="ability-num">02</div>
+          <div>
+            <h3>抽象思维能力</h3>
+            <p>将图文、短视频等复杂内容提炼为结构化模型，通过归纳推理建立内容要素关联。</p>
+          </div>
+          <div class="ability-tags"><span>Modeling</span><span>Reasoning</span><span>Structure</span></div>
+        </section>
+        <section class="ability-card">
+          <div class="ability-num">03</div>
+          <div>
+            <h3>加分项</h3>
+            <p>3年以上内容创作/策划经验，覆盖短视频脚本、品牌故事与社交媒体文案等多类型内容。</p>
+          </div>
+          <div class="ability-tags"><span>Script</span><span>Brand Story</span><span>Social</span></div>
+        </section>
+      </div>
+    </div>
+    <nav class="toc" aria-label="作品索引">
+      <a href="#altea"><b>01</b><span><strong>我是 Altea</strong><br>短视频脚本 / 宣传片策划</span></a>
+      <a href="#explore"><b>02</b><span><strong>武汉大健康 Explore 展览</strong><br>医疗展陈文案 / 互动体验策划</span></a>
+      <a href="#gallery"><b>03</b><span><strong>生命印象 Gallery</strong><br>工业科技感作品展示页</span></a>
+    </nav>
+  </section>
+
+  <section class="case" id="altea" aria-label="我是 Altea">
+    <aside class="side">
+      <div class="kicker">Case 01</div>
+      <h2 class="calligraphy-title">我是 Altea<span class="title-extra">产品宣传片本地化</span></h2>
+      <p class="sub">《致所有独一无二生命》</p>
+      <div class="meta">
+        <div><div class="label">类型</div><p>短视频核心脚本撰写 / 宣传片策划</p></div>
+        <div><div class="label">职责</div><p>脚本、分镜、剪辑节奏把控。</p></div>
+        <div><div class="label">策略</div><p>把医疗科技参数转译为“医者之道”的价值叙事。</p></div>
+      </div>
+      <img class="qr" src="Codex/2026-05-19/new-chat/siemens_healthineers_wechat_qr.jpg" alt="西门子医疗官方微信公众号二维码">
+      <p class="qr-note">扫码可关注运营公众号，查看视频合集。</p>
+    </aside>
+    <div>
+      <div class="visual">
+        <div class="main-img"><img src="Codex/2026-05-19/new-chat/altea_assets/01_hero.png" alt="Altea 视觉开场"></div>
+        <div class="statement statement-impact" data-reflection="让技术产品先成为一个能被记住的生命叙事">
+          <strong>让技术产品先成为一个能被记住的生命叙事</strong>
+          <p>主线不讲参数堆叠，而讲使命感、精准洞察与患者体验。</p>
+        </div>
+      </div>
+      <div class="cards">
+        <article class="card"><div class="thumb"><img src="Codex/2026-05-19/new-chat/altea_assets/01_hero.png" alt="视觉开场"></div><div class="card-copy"><div class="label">视觉开场</div><h3>医者仁心</h3><p>黑金视觉建立庄重、专业的医疗品牌气质。</p></div></article>
+        <article class="card"><div class="thumb"><img src="Codex/2026-05-19/new-chat/altea_assets/02_video.png" alt="视频入口"></div><div class="card-copy"><div class="label">使命引入</div><h3>平等尊重</h3><p>从品牌名转入价值观，承接观看情绪。</p></div></article>
+        <article class="card"><div class="thumb"><img src="Codex/2026-05-19/new-chat/altea_assets/03_copy.png" alt="核心文案"></div><div class="card-copy"><div class="label">核心论述</div><h3>洞察细微</h3><p>以医者视角突出精准、洞察与微观判断。</p></div></article>
+        <article class="card"><div class="thumb"><img src="Codex/2026-05-19/new-chat/altea_assets/04_cta.png" alt="结尾转化"></div><div class="card-copy"><div class="label">收束转化</div><h3>帮助与安慰</h3><p>用经典医学表达完成情绪收束与行动引导。</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="case alt two" id="explore" aria-label="武汉大健康 Explore 展览">
+    <aside class="side">
+      <div class="kicker">Case 02</div>
+      <h2 class="calligraphy-title">大型展会环境美术</h2>
+      <p class="sub">大健康 Explore in WUHAN</p>
+      <div class="meta">
+        <div><div class="label">主题</div><p>透视、治愈、突破。</p></div>
+        <div><div class="label">职责</div><p>主题文案、展板结构、动线叙事及影像表达协同。</p></div>
+        <div><div class="label">判断</div><p>让设备展示变成可停留、可讲述的展览体验。</p></div>
+      </div>
+    </aside>
+    <div>
+      <div class="visual">
+        <div class="main-img"><img src="gallery_assets/news_11.jpg" alt="大型展会环境美术现场图"></div>
+        <div class="statement">
+          <strong>把专业影像、空间动线和观众理解放在同一条叙事线上。</strong>
+          <p>文案不替设备背书，而是帮助观众理解“为什么值得看”。</p>
+        </div>
+      </div>
+      <div class="cards">
+        <article class="card"><div class="thumb"><img src="Codex/2026-05-19/new-chat/explore_assets/explore_01.png" alt="透视展区"></div><div class="card-copy"><div class="label">透视</div><h3>洞察生命脉络</h3><p>以“透”为入口，把影像能力转译为内部观察。</p></div></article>
+        <article class="card"><div class="thumb"><img src="Codex/2026-05-19/new-chat/explore_assets/explore_02.png" alt="治疗展区"></div><div class="card-copy"><div class="label">治愈</div><h3>技术支持医者</h3><p>用临床场景强化技术与医者协同。</p></div></article>
+        <article class="card"><div class="thumb"><img src="Codex/2026-05-19/new-chat/explore_assets/explore_03.png" alt="突破展区"></div><div class="card-copy"><div class="label">突破</div><h3>突破禁区</h3><p>把复杂检查场景中的技术进步转化为可感知表达。</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="case two" id="gallery" aria-label="生命印象 Gallery">
+    <aside class="side">
+      <div class="kicker">Case 03</div>
+      <h2>生命印象 Gallery</h2>
+      <p class="sub">西门子医疗跨模态医学影像艺术展作品展示页</p>
+      <div class="meta">
+        <div><div class="label">主题</div><p>以“生命印象”为核心，将医学影像从诊断工具转译为可观看的艺术现场。</p></div>
+        <div><div class="label">职责</div><p>负责页面叙事结构、视觉关键词提炼与图文展示节奏整合。</p></div>
+        <div><div class="label">内涵</div><p>用工业科技感承托生命美学，让冷静的设备语言呈现温度、秩序与想象力。</p></div>
+      </div>
+    </aside>
+    <div>
+      <div class="visual">
+        <div class="main-img"><img src="gallery_assets/news_12.jpg" alt="生命印象展览现场"></div>
+        <div class="statement">
+          <strong>用技术的精度，显影生命的温度。</strong>
+          <p>医学影像不只作为诊断工具，也作为进入生命内部的观看方式。</p>
+        </div>
+      </div>
+      <div class="cards">
+        <article class="card"><div class="thumb"><img src="gallery_assets/news_02.jpg" alt="透视展区灯箱影像"></div><div class="card-copy"><div class="label">透视</div><h3>观察生命脉络</h3><p>从表象进入内部结构。</p></div></article>
+        <article class="card"><div class="thumb"><img src="gallery_assets/news_08.jpg" alt="实影渲染医学影像"></div><div class="card-copy"><div class="label">重塑</div><h3>实影渲染细节</h3><p>医学数据转化为立体影像。</p></div></article>
+        <article class="card"><div class="thumb"><img src="gallery_assets/news_06.jpg" alt="超高场脑部医学影像"></div><div class="card-copy"><div class="label">探索</div><h3>尖端成像技术</h3><p>连接科研与精准诊断。</p></div></article>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

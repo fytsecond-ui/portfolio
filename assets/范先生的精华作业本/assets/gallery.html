@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>生命・影像 | Gallery</title>
+  <style>
+    :root {
+      --bg: #070b11;
+      --bg-2: #0d1520;
+      --panel: rgba(12, 20, 31, 0.86);
+      --panel-2: rgba(11, 17, 27, 0.94);
+      --line: rgba(115, 168, 199, 0.22);
+      --cyan: #74f0ff;
+      --blue: #5ab4ff;
+      --amber: #ffb45c;
+      --text: #ebf3fb;
+      --muted: #89a0b4;
+      --soft: #b7c7d7;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(90, 180, 255, 0.18), transparent 24%),
+        radial-gradient(circle at 10% 20%, rgba(116, 240, 255, 0.08), transparent 26%),
+        linear-gradient(180deg, #04070b 0%, #08111b 45%, #05080d 100%);
+      color: var(--text);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(116, 240, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(116, 240, 255, 0.05) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.08));
+      pointer-events: none;
+    }
+
+    .shell {
+      width: min(1440px, calc(100% - 48px));
+      margin: 24px auto;
+      padding: 24px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(8, 13, 20, 0.94), rgba(5, 9, 14, 0.96));
+      box-shadow: var(--shadow);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    .sidebar,
+    .panel,
+    .content-panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar {
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      width: 5px;
+      height: 96px;
+      background: linear-gradient(180deg, var(--cyan), var(--blue));
+      box-shadow: 0 0 24px rgba(116, 240, 255, 0.45);
+    }
+
+    .eyebrow,
+    .meta-label,
+    .section-kicker {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px 20px;
+    }
+
+    h1 {
+      margin: 0 0 10px 20px;
+      font-family: "STXingkai", "华文行楷", "KaiTi", "FangSong", serif;
+      font-size: clamp(48px, 5.2vw, 74px);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      font-weight: 500;
+    }
+
+    h1 .title-dot {
+      display: block;
+      color: var(--cyan);
+      font-size: 0.66em;
+      line-height: 0.7;
+    }
+
+    .subtitle {
+      margin: 0 0 30px 20px;
+      color: var(--amber);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .intro {
+      margin: 0;
+      color: var(--soft);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .meta {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 16px;
+    }
+
+    .meta-label {
+      margin-bottom: 8px;
+    }
+
+    .meta-value {
+      margin: 0;
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chips span {
+      padding: 7px 10px;
+      border: 1px solid rgba(116, 240, 255, 0.22);
+      color: var(--cyan);
+      background: rgba(8, 18, 27, 0.86);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .main {
+      display: grid;
+      gap: 20px;
+    }
+
+    .panel,
+    .content-panel {
+      padding: 22px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
+    .work-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tile img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .gallery-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .work-plate {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: 280px;
+      gap: 12px;
+    }
+
+    .work-image {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+    }
+
+    .work-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(116, 240, 255, 0.14), transparent 32%),
+        linear-gradient(180deg, transparent 58%, rgba(3, 7, 12, 0.58));
+      pointer-events: none;
+    }
+
+    .work-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .keyword-board {
+      min-height: 280px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(116, 240, 255, 0.13), transparent 34%),
+        linear-gradient(180deg, rgba(255, 180, 92, 0.08), rgba(5, 10, 16, 0.92)),
+        var(--panel-2);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .keyword-board::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(116, 240, 255, 0.16);
+      pointer-events: none;
+    }
+
+    .keyword-board .section-kicker {
+      position: relative;
+      z-index: 1;
+      color: var(--cyan);
+    }
+
+    .keyword-line {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .keyword-line span {
+      padding: 8px 10px;
+      border: 1px solid rgba(116, 240, 255, 0.24);
+      background: rgba(4, 10, 16, 0.64);
+      color: #eff8ff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .keyword-statement {
+      position: relative;
+      z-index: 1;
+      margin: 34px 0 0;
+      color: var(--text);
+      font-size: 42px;
+      line-height: 1.18;
+      font-weight: 900;
+    }
+
+    .work-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .summary-item {
+      padding: 18px 16px;
+      min-height: 0;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .summary-thumb {
+      height: 118px;
+      margin: -6px -4px 14px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background: #02060a;
+    }
+
+    .summary-thumb img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .summary-item h3 {
+      margin: 10px 0 10px;
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    .summary-item p {
+      margin: 0;
+      color: var(--soft);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    @media (max-width: 1080px) {
+      .layout,
+      .work-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .work-plate {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 240px 180px 180px 180px;
+      }
+
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        width: calc(100% - 24px);
+        margin: 12px auto;
+        padding: 14px;
+      }
+
+      .sidebar,
+      .panel {
+        padding: 18px;
+      }
+
+      .work-plate,
+      .work-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .work-plate {
+        grid-template-rows: none;
+      }
+
+      .work-image {
+        min-height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="layout">
+      <aside class="sidebar" aria-label="项目概览">
+        <p class="eyebrow">Portfolio / Gallery Page</p>
+        <h1>生命<span class="title-dot">·</span>印象</h1>
+        <p class="subtitle">西门子医疗跨模态医学影像艺术展作品展示页</p>
+        <p class="intro">医学影像不只是诊断工具，也是一种进入生命内部的观看方式。展览以跨模态影像、实影渲染与沉浸式装置，呈现科学精度与生命美感之间的连接。</p>
+
+        <div class="meta">
+          <div>
+            <div class="meta-label">项目摘要</div>
+            <p class="meta-value">行业首个跨模态医学影像艺术展，围绕透视、重塑、探索、轮回四段叙事展开。</p>
+          </div>
+          <div>
+            <div class="meta-label">内容关键词</div>
+            <div class="chips">
+              <span>CT / MR / XR</span>
+              <span>Cinematic Rendering</span>
+              <span>7T 超高场</span>
+              <span>医学影像艺术</span>
+              <span>展陈装置</span>
+              <span>自然本源</span>
+            </div>
+          </div>
+          <div>
+            <div class="meta-label">表达方向</div>
+            <p class="note">以冷峻的工业结构承托高饱和医学影像，让展览现场、设备语言与生命图像形成同一套视觉系统。</p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="main" aria-label="作品展示">
+        <section class="panel">
+          <div class="work-plate">
+            <div class="work-image">
+              <img src="news_12.jpg" alt="展览现场竖向屏幕与医学影像">
+            </div>
+            <div class="keyword-board">
+              <div class="section-kicker">Keywords</div>
+              <div class="keyword-line">
+                <span>透视表象</span>
+                <span>重塑生命</span>
+                <span>跨模态影像</span>
+                <span>实影渲染</span>
+                <span>7T 超高场</span>
+                <span>自然本源</span>
+              </div>
+              <p class="keyword-statement">用技术的精度，<br>显影生命的温度。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-panel" aria-label="内容说明">
+          <div class="work-head">
+            <div>
+              <div class="section-kicker">Content Structure</div>
+              <h2 class="section-title">展区结构 / 视觉转译</h2>
+            </div>
+          </div>
+
+          <div class="work-summary">
+          <article class="summary-item">
+            <div class="summary-thumb">
+              <img src="news_02.jpg" alt="透视展区灯箱影像">
+            </div>
+            <div class="section-kicker">透视</div>
+            <h3>观察生命脉络</h3>
+            <p>以 CT 与磁共振重新观看自然与人体，从表象进入内部结构。</p>
+          </article>
+
+          <article class="summary-item">
+            <div class="summary-thumb">
+              <img src="news_08.jpg" alt="实影渲染医学影像">
+            </div>
+            <div class="section-kicker">重塑</div>
+            <h3>实影渲染细节</h3>
+            <p>用 Cinematic Rendering 将医学数据转化为更具深度感的立体影像。</p>
+          </article>
+
+          <article class="summary-item">
+            <div class="summary-thumb">
+              <img src="news_06.jpg" alt="超高场脑部医学影像">
+            </div>
+            <div class="section-kicker">探索</div>
+            <h3>尖端成像技术</h3>
+            <p>通过 7T 超高场、多层同时成像等技术，连接科研与精准诊断。</p>
+          </article>
+
+          <article class="summary-item">
+            <div class="summary-thumb">
+              <img src="news_18.jpg" alt="自然本源影像作品">
+            </div>
+            <div class="section-kicker">轮回</div>
+            <h3>自然本源</h3>
+            <p>以四季更迭和 X 光影像收束，回应科技与生命之美的关系。</p>
+          </article>
+          </div>
+        </section>
+
+      </section>
+    </div>
+  </main>
+</body>
+</html>
